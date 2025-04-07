@@ -22,11 +22,10 @@ io.on("connection",(socket) => {
 
     socket.on("disconnect",()=>{
         console.log("User disconnected");
-        
+         
     });
-     
 });
 const PORT = serverConfig.PORT;
 server.listen(PORT, () => {
     console.log(`Server is up at port ${PORT}`); 
-}); 
+});  
