@@ -3,6 +3,7 @@ import http from "http";
 import serverConfig from "./config/server.config";
 import {Server} from 'socket.io';
 import cors from "cors";
+import roomHandler from "./handler/roomHandler";
 
 
 const app = express();
@@ -14,18 +15,18 @@ const io = new Server( server,{
             origin: "*",
             methods: ["GET", "POST"]  
         }
-
     }
 ); 
 io.on("connection",(socket) => {
     console.log("New user connected");
-
+    roomHandler(socket);
     socket.on("disconnect",()=>{
         console.log("User disconnected");
          
     });
 });
 const PORT = serverConfig.PORT;
+
 server.listen(PORT, () => {
-    console.log(`Server is up at port ${PORT}`); 
-});  
+    console.log(`Server is up at port ${PORT}`);  
+});   

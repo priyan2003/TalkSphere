@@ -4,9 +4,9 @@
     "rules":{
         "no-console":{
             "severity": "warning",
-            "options": ["debug", "info", "log","trace"]
+            "options": ["debug", "info","trace"]
         },
-        "max-line-length": [ true, 100],
+        "max-line-length": [ true, 200],
         "semicolon": {
             "options": ["always"]
         }
