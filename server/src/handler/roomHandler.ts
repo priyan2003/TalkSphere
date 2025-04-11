@@ -1,10 +1,11 @@
 import { Socket } from "socket.io/dist";
 import {v4 as UUIDv4} from "uuid";
 import IRoomParams from "../interfaces/IRoomParams";
+
+// the below map stores for a room what all peer have joined
 const rooms: Record<string,string[]> = {};
 
 const roomHandler = (socket: Socket) => {
-    // the below map stores for a room what all peer have joined
     const createRoom = () =>{
         console.log("creating a room...");
         const roomId = UUIDv4();// this is our unique room id in which multiple connection will exchange data
@@ -21,6 +22,13 @@ const roomHandler = (socket: Socket) => {
             // this moment new user joined with peer id "peerId" at room Id as roomId
             rooms[roomId].push(peerId);
             socket.join(roomId);
+
+            // whenever anyone joins the room
+            socket.on("ready",()=>{
+                // from frontend if someone joins the room we emit a "ready" event
+                // then from server we emit an events to inform all connected user that a new peer user has been added
+                socket.to(roomId).emit("user-joined",{peerId});
+            });
 
             // below event is just for logging pupose
             socket.emit("get-users",{
