@@ -5,7 +5,7 @@ import Peer from "peerjs"
 import {v4 as UUIDv4} from "uuid";
 import { peerReducer } from "../Reducers/peerReducers";
 import { addPeerAction } from "../Actions/peerActions";
-const ws_server = "http://localhost:4000";
+const ws_server = "https://talksphere-priyanshu.onrender.com";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const SocketContext = createContext<any | null>(null);
