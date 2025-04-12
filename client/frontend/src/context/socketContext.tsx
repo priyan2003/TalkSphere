@@ -3,10 +3,10 @@ import {createContext, useEffect, useReducer, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import Peer from "peerjs"
 import {v4 as UUIDv4} from "uuid";
-// import { peerReducer } from "../Reducers/peerReducers";
-import { addPeerAction } from "../Actions/peerActions";
 import { peerReducer } from "../Reducers/peerReducers";
+import { addPeerAction } from "../Actions/peerActions";
 const ws_server = "https://talksphere-priyanshu.onrender.com";
+
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const SocketContext = createContext<any | null>(null);
@@ -33,11 +33,13 @@ export const SocketProvider: React.FC<Props> = ({children}) => {
    
     useEffect(()=>{
         const userId = UUIDv4();
-        const newPeer = new Peer(userId,{
-            host: "localhost",
-            port: 9000,
+        const newPeer = new Peer(userId, {
+            host: "talksphere-priyanshu.onrender.com",  // no "https://"
+            secure: true,
+            port: 443,  // default HTTPS port
             path: "/myapp"
         });
+        
         setUser(newPeer);
         fetchUsersFeed();
         const enterRoom = ({roomId} : {roomId:string}) =>{
