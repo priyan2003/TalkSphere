@@ -3,8 +3,9 @@ import {createContext, useEffect, useReducer, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import Peer from "peerjs"
 import {v4 as UUIDv4} from "uuid";
-import { peerReducer } from "../Reducers/peerReducers";
+// import { peerReducer } from "../Reducers/peerReducers";
 import { addPeerAction } from "../Actions/peerActions";
+import { peerReducer } from "../Reducers/peerReducers";
 const ws_server = "https://talksphere-priyanshu.onrender.com";
 
 // eslint-disable-next-line react-refresh/only-export-components
