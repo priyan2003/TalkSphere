@@ -3,44 +3,40 @@ import { useParams } from "react-router-dom";
 import { SocketContext } from "../context/socketContext";
 import UserFeedPlayer from "../components/UserFeedPlayer";
 
-const Room: React.FC = () => { 
-    const { id } = useParams();
-    const { socket, user, stream, peers} = useContext(SocketContext);
+const Room: React.FC = () => {
 
-    const fetchParticipantsList = ({roomId, participants}: {roomId:string, participants:string[]}) =>{
-        console.log("Fetching participants....");
-        console.log(roomId," ", participants);
-    }
+    const { id } = useParams();
+    const { socket, user, stream, peers } = useContext(SocketContext);
 
     useEffect(() => {
-        if (user && socket) {
-            console.log(user._id);
-            console.log(id);
-            socket.emit("joined-room", { roomId: id, peerId: user._id });
-            socket.on("get-users",fetchParticipantsList)
+        // emitting this event so that either creator of room or joinee in the room 
+        // anyone is added the server knows that new people have been added\
+        // to this room
+        if(user) {
+            console.log("New user with id", user._id, "has joined room", id);
+            socket.emit("joined-room", {roomId: id, peerId: user._id})
         }
-    }, [user, id, socket,peers]);
 
-    if (!user) {
-        return <div>Loading user info...</div>;
-    }
-
-    return (
+    }, [id, user, socket,peers]); 
+    
+    return(
         <div>
-            room: {id}
+            room : {id}
             <br />
             Your own user feed
-            <UserFeedPlayer stream={stream}/>
+            <UserFeedPlayer stream={stream} />
+
             <div>
-                Others user feed
-                {Object.keys(peers).map((peerId)=>(
+                Other Users feed
+                {Object.keys(peers).map((peerId) => (
                     <>
-                       <UserFeedPlayer key={peerId} stream={peers[peerId].stream}/>
+                        
+                        <UserFeedPlayer key={peerId} stream={peers[peerId].stream} />
                     </>
                 ))}
             </div>
         </div>
-    );
-};
+    )
+}
 
 export default Room;

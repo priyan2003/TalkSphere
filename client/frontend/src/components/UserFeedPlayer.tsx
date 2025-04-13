@@ -5,7 +5,8 @@ const UserFeedPlayer : React.FC<{stream?: MediaStream}> = ({stream}) => {
     useEffect(()=>{
         if(videoRef.current && stream){
             videoRef.current.srcObject = stream
-             videoRef.current.play();
+            videoRef.current.play();
+
         }
     },[stream])
     return (   
@@ -13,7 +14,6 @@ const UserFeedPlayer : React.FC<{stream?: MediaStream}> = ({stream}) => {
           ref = {videoRef}
           style={{width:'300px', height:'200px', transform: 'scaleX(-1)'}}
           muted= {true}
-          
         />
     )
 }
