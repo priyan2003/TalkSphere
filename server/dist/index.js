@@ -5,20 +5,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const http_1 = __importDefault(require("http"));
-const server_config_1 = __importDefault(require("./config/server.config"));
-const socket_io_1 = require("socket.io");
-const peer_1 = require("peer");
 const cors_1 = __importDefault(require("cors"));
+const peer_1 = require("peer");
+const socket_io_1 = require("socket.io");
+const server_config_1 = __importDefault(require("./config/server.config"));
 const roomHandler_1 = __importDefault(require("./handler/roomHandler"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 const server = http_1.default.createServer(app);
-// Attach PeerJS to /myapp path
+// ✅ Setup Peer Server on /peerjs path
 const peerServer = (0, peer_1.ExpressPeerServer)(server, {
-    path: "/myapp",
+    //   debug: true,
+    path: "/",
 });
-app.use("/myapp", peerServer);
-// Setup socket.io
+// ✅ Attach it like this
+app.use("/peerjs", peerServer);
+// ✅ Setup Socket.IO
 const io = new socket_io_1.Server(server, {
     cors: {
         origin: "*",
@@ -32,7 +34,8 @@ io.on("connection", (socket) => {
         console.log("User disconnected");
     });
 });
-const PORT = server_config_1.default.PORT;
+// ✅ Listen
+const PORT = server_config_1.default.PORT || 4000;
 server.listen(PORT, () => {
-    console.log(`Server is running at port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });

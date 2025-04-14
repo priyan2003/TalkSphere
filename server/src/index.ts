@@ -1,9 +1,9 @@
 import express from "express";
 import http from "http";
-import serverConfig from "./config/server.config";
-import { Server as SocketIOServer } from 'socket.io';
-import { ExpressPeerServer } from "peer";
 import cors from "cors";
+import { ExpressPeerServer } from "peer";
+import { Server as SocketIOServer } from "socket.io";
+import serverConfig from "./config/server.config";
 import roomHandler from "./handler/roomHandler";
 
 const app = express();
@@ -11,13 +11,16 @@ app.use(cors());
 
 const server = http.createServer(app);
 
-// Attach PeerJS to /myapp path
+// ✅ Setup Peer Server on /peerjs path
 const peerServer = ExpressPeerServer(server, {
-  path: "/myapp",
+//   debug: true,
+  path: "/",
 });
-app.use("/myapp", peerServer);
 
-// Setup socket.io
+// ✅ Attach it like this
+app.use("/peerjs", peerServer);
+
+// ✅ Setup Socket.IO
 const io = new SocketIOServer(server, {
   cors: {
     origin: "*",
@@ -34,8 +37,9 @@ io.on("connection", (socket) => {
   });
 });
 
-const PORT = serverConfig.PORT;
+// ✅ Listen
+const PORT = serverConfig.PORT || 4000;
 
 server.listen(PORT, () => {
-  console.log(`Server is running at port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
