@@ -9,6 +9,7 @@ import { addPeerAction } from "../Actions/peerActions";
 // import { addPeerAction } from "../Actions/peerAction";
 const WS_Server = "https://talksphere-priyanshu.onrender.com";
 
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, react-refresh/only-export-components
 export const SocketContext = createContext<any | null>(null);
 
@@ -48,10 +49,10 @@ export const SocketProvider: React.FC<Props> = ({ children }) => {
         
         const newPeer = new Peer(userId, {
             host: "talksphere-priyanshu.onrender.com",
-            port: 443,
             path: "/myapp",
-            secure: true
-        })
+            secure: true   // must be true for HTTPS
+          });
+          
 
         setUser(newPeer);
 

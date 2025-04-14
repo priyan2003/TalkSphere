@@ -1,36 +1,23 @@
 import express from "express";
 import http from "http";
 import serverConfig from "./config/server.config";
-import { Server as SocketIOServer } from "socket.io";
+import { Server as SocketIOServer } from 'socket.io';
 import { ExpressPeerServer } from "peer";
 import cors from "cors";
 import roomHandler from "./handler/roomHandler";
 
 const app = express();
-
-// Middleware
 app.use(cors());
-app.use(express.json()); // In case you want to handle JSON payloads
 
 const server = http.createServer(app);
 
-// --- PeerJS Setup ---
+// Attach PeerJS to /myapp path
 const peerServer = ExpressPeerServer(server, {
   path: "/myapp",
-//   debug: true, // Enable logs for connection lifecycle
 });
-
-peerServer.on("connection", (client) => {
-    console.log(`🔌 Peer connected: ${client.getId()}`);
-});
-
-peerServer.on("disconnect", (client) => {
-    console.log(`❌ Peer disconnected: ${client.getId()}`);
-});
-
 app.use("/myapp", peerServer);
 
-// --- Socket.IO Setup ---
+// Setup socket.io
 const io = new SocketIOServer(server, {
   cors: {
     origin: "*",
@@ -39,18 +26,16 @@ const io = new SocketIOServer(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log(`📡 Socket connected: ${socket.id}`);
+  console.log("New user connected");
   roomHandler(socket);
 
   socket.on("disconnect", () => {
-    console.log(`🔌 Socket disconnected: ${socket.id}`);
+    console.log("User disconnected");
   });
 });
 
-// --- Start Server ---
-const PORT = serverConfig.PORT || 5000;
+const PORT = serverConfig.PORT;
 
 server.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}`);
-  console.log(`📡 PeerJS server available at /myapp`);
+  console.log(`Server is running at port ${PORT}`);
 });
