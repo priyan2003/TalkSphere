@@ -49,8 +49,9 @@ export const SocketProvider: React.FC<Props> = ({ children }) => {
         
         const newPeer = new Peer(userId, {
             host: "talksphere-priyanshu.onrender.com",
-            path: "/peerjs", // ✅ should match the path used in app.use
-            secure: true,
+            port: 443,               // ✅ Required for HTTPS (default for Render)
+            path: "/peerjs",         // ✅ Must match the backend route
+            secure: true             // ✅ Use HTTPS
           });
           
           
