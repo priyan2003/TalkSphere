@@ -7,8 +7,7 @@ import { peerReducer } from "../Reducers/peerReducers";
 import { addPeerAction } from "../Actions/peerActions";
 // import { peerReducer } from "../Reducers/peerReducer";
 // import { addPeerAction } from "../Actions/peerAction";
-const WS_Server = "https://talksphere-priyanshu.onrender.com";
-
+const WS_Server = "http://localhost:4000";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, react-refresh/only-export-components
 export const SocketContext = createContext<any | null>(null);
@@ -48,12 +47,10 @@ export const SocketProvider: React.FC<Props> = ({ children }) => {
         console.log(userId);
         
         const newPeer = new Peer(userId, {
-            host: "talksphere-priyanshu.onrender.com",
-            port: 443,
-            secure: true,
+            host: "localhost",
+            port: 9000,
             path: "/myapp"
         });
-        
 
         setUser(newPeer);
 

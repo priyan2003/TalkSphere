@@ -11,13 +11,13 @@ app.use(cors());
 
 const server = http.createServer(app);
 
-// 🟢 Attach PeerJS to /myapp path
+// Attach PeerJS to /myapp path
 const peerServer = ExpressPeerServer(server, {
   path: "/myapp",
 });
 app.use("/myapp", peerServer);
 
-// 🟢 Setup socket.io
+// Setup socket.io
 const io = new SocketIOServer(server, {
   cors: {
     origin: "*",
