@@ -21,11 +21,11 @@ const peerServer = ExpressPeerServer(server, {
 });
 
 peerServer.on("connection", (client) => {
-  console.log(`🔌 Peer connected: ${client.getId()}`);
+    console.log(`🔌 Peer connected: ${client.getId()}`);
 });
 
 peerServer.on("disconnect", (client) => {
-  console.log(`❌ Peer disconnected: ${client.getId()}`);
+    console.log(`❌ Peer disconnected: ${client.getId()}`);
 });
 
 app.use("/myapp", peerServer);

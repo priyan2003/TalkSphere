@@ -7,7 +7,7 @@ import { peerReducer } from "../Reducers/peerReducers";
 import { addPeerAction } from "../Actions/peerActions";
 // import { peerReducer } from "../Reducers/peerReducer";
 // import { addPeerAction } from "../Actions/peerAction";
-const WS_Server = "https://talksphere-priyanshu.onrender.com";
+const WS_Server = "https://talksphere-priyanshu.onrender.com/myapp";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, react-refresh/only-export-components
 export const SocketContext = createContext<any | null>(null);
